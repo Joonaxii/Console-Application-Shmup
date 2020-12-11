@@ -5,3 +5,5 @@ I had never attempted anything like this in the C# Console Application before so
 Luckily It was possible & I managed to make a game that's at least somewhat playable in the Console.
 
 Also WARNING, SOME OF THE CODE WAS MORE "RUSHED" TO MAKE THE DEADLINE THE ASSIGNMENT HAD I'LL MAKE THE CODE CLEANER ON A LATER DATE WHEN I HAVE MORE TIME ON MY HANDS
+
+![alt text](https://github.com/Joonaxii/Console-Application-Shmup/Screenshots/Screenshot_0.png?raw=true)
