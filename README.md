@@ -1,6 +1,8 @@
 # Console-Application-Shmup
 This was an assignment I made for an Object-Oriented-Programming course in school. 
 
+I made this using .Net Framework 4.6.1
+
 I had never attempted anything like this in the C# Console Application before so I initially wasn't sure if it'd even be possible. 
 Luckily It was possible & I managed to make a game that's at least somewhat playable in the Console.
 
