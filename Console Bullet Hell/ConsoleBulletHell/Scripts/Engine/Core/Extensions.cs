@@ -47,6 +47,16 @@ namespace Joonaxii.ConsoleBulletHell
             return sum;
         }
 
+        public static float Sum(this float[] input)
+        {
+            float sum = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+                sum += input[i];
+            }
+            return sum;
+        }
+
         public static string AddSpaces(this int input)
         {
             NumberFormatInfo nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();

@@ -15,20 +15,16 @@ namespace Joonaxii.ConsoleBulletHell
             y = _y;
         }
 
-        public override bool Equals(object obj)
+        public void Set(int _x, int _y)
         {
-            return obj is Vector2Int && Equals((Vector2Int)obj);
+            x = _x;
+            y = _y;
         }
 
-        public bool Equals(Vector2Int other)
-        {
-            return x == other.x && y == other.y;
-        }
+        public bool Equals(Vector2Int other) => x == other.x && y == other.y;
+        public override bool Equals(object obj) => obj is Vector2Int && Equals((Vector2Int)obj);
 
-        public override string ToString()
-        {
-            return $"XY: {x}, {y}";
-        }
+        public override string ToString() => $"XY: ({x}, {y})";
 
         public override int GetHashCode()
         {
@@ -38,20 +34,8 @@ namespace Joonaxii.ConsoleBulletHell
             return hashCode;
         }
 
-        public void Set(int _x, int _y)
-        {
-            x = _x;
-            y = _y;
-        }
-
-        public static bool operator ==(Vector2Int vector1, Vector2Int vector2)
-        {
-            return vector1.Equals(vector2);
-        }
-
-        public static bool operator !=(Vector2Int vector1, Vector2Int vector2)
-        {
-            return !(vector1 == vector2);
-        }
+        public static bool operator ==(Vector2Int vector1, Vector2Int vector2) => vector1.Equals(vector2);
+        public static bool operator !=(Vector2Int vector1, Vector2Int vector2) => !(vector1 == vector2);
+        public static Vector2Int operator -(Vector2Int vector) => new Vector2Int(-vector.x, -vector.y);
     }
 }

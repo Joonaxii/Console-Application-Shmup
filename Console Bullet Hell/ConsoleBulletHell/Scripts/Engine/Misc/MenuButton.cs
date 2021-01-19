@@ -4,8 +4,8 @@ namespace Joonaxii.ConsoleBulletHell
 {
     public class MenuButton
     {
-        private const float _selectTimer = 0.125f;
-        private const int _maxLines = 5;
+        private const float _SELECT_TIMER = 0.125f;
+        private const int _MAX_LINES = 5;
 
         private readonly static string[] _lines;
 
@@ -16,16 +16,16 @@ namespace Joonaxii.ConsoleBulletHell
         private float _time;
 
         private bool _selected;
+        private int _currentCount = 0;
 
         static MenuButton()
         {
-            _lines = new string[_maxLines+1];
+            _lines = new string[_MAX_LINES+1];
             for (int i = 0; i < _lines.Length; i++)
             {
                 _lines[i] = new string('-', i);
             }
         }
-
 
         public MenuButton(string name, Action action)
         {
@@ -33,13 +33,12 @@ namespace Joonaxii.ConsoleBulletHell
             _menuName = name;
         }
 
-        private int _currentCount = 0;
         public void Draw(int y, bool selected, float deltaTime, bool init)
         {
             if (init)
             {
                 _selected = selected;
-                _currentCount = selected ? _maxLines : 0;
+                _currentCount = selected ? _MAX_LINES : 0;
                 _time = 0;
             }
             else
@@ -51,9 +50,9 @@ namespace Joonaxii.ConsoleBulletHell
                 }
                 else
                 {
-                    if (selected ? (_currentCount == _maxLines) : (_currentCount == 0)) { return; }
-                    float n = _time / _selectTimer;
-                    _currentCount = (int)Maths.Lerp(0, _maxLines, Maths.SmoothStep(0, 1, Maths.Clamp(selected ? n : 1.0f - n, 0, 1)));
+                    if (selected ? (_currentCount == _MAX_LINES) : (_currentCount == 0)) { return; }
+                    float n = _time / _SELECT_TIMER;
+                    _currentCount = (int)Maths.Lerp(0, _MAX_LINES, Maths.SmoothStep(0, 1, Maths.Clamp(selected ? n : 1.0f - n, 0, 1)));
                     _time += deltaTime;
                 }
             }

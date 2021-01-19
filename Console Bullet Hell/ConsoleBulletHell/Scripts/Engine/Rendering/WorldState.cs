@@ -8,8 +8,6 @@ namespace Joonaxii.ConsoleBulletHell
     {
         public char[] State = new char[Renderer.WORLD_RES_X * Renderer.WORLD_RES_Y];
         public bool[] StateChanged = new bool[Renderer.WORLD_RES_X * Renderer.WORLD_RES_Y];
-        [DllImport("kernel32.dll")]
-        static extern void OutputDebugString(string lpOutputString);
 
         private StringBuilder _output = new StringBuilder(new string(' ', Renderer.WORLD_RES_X * Renderer.WORLD_RES_Y));
 

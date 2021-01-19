@@ -14,8 +14,8 @@ namespace Joonaxii.ConsoleBulletHell
 
             if ((notNullA = first.Sprite != null) & (notNullB = second.Sprite != null))
             {
-                orderA = first.Sprite.order + first.renderingOffset;
-                orderB = second.Sprite.order + second.renderingOffset;
+                orderA = first.Sprite.Order + first.renderingOffset;
+                orderB = second.Sprite.Order + second.renderingOffset;
 
                 return -orderA.CompareTo(orderB);
             }

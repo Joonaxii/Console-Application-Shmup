@@ -114,7 +114,7 @@ namespace Joonaxii.ConsoleBulletHell
                 {
                     int i = y * resoAdd + x;
 
-                    float dist = Maths.Distance(x - center, -0.5f, y - center, -0.5f);
+                    float dist = Maths.SqrDistance(x - center, -0.5f, y - center, -0.5f);
                     bool inside = dist <= rad;
 
                     map[i] = (byte)(inside ? 1 : 0);

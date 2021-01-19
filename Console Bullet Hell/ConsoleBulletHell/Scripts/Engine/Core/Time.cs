@@ -40,10 +40,7 @@ namespace Joonaxii.ConsoleBulletHell
             _sw = Stopwatch.StartNew();
         }
 
-        public WaitForSeconds WaitForSeconds(float dur)
-        {
-            return new WaitForSeconds(this, dur);
-        }
+        public WaitForSeconds WaitForSeconds(float dur) => new WaitForSeconds(this, dur);
 
         public void Tick()
         {

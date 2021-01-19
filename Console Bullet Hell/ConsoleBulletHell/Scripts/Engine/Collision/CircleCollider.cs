@@ -12,10 +12,7 @@
             SetSprite();
         }
 
-        public override ColliderBase Clone()
-        {
-            return MemberwiseClone() as CircleCollider;
-        }
+        public override ColliderBase Clone() => MemberwiseClone() as CircleCollider;
 
         public void SetRadius(float radius)
         {
@@ -27,24 +24,10 @@
             SetSprite();
         }
 
-        private void SetSprite()
-        {
-            ShapeSprite = SpriteFactory.GetCircle(Radius, RadiusSqrd);
-        }
+        private void SetSprite() => ShapeSprite = SpriteFactory.GetCircle(Radius, RadiusSqrd);
 
-        public override bool VSBox(BoxCollider col)
-        {
-            return CollisionSystem.BoxVSCircle(Center, RadiusSqrd, col.Min, col.Max);
-        }
-
-        public override bool VSCircle(CircleCollider col)
-        {
-            return CollisionSystem.CircleVSCircle(Center, col.Center, Radius, col.Radius);
-        }
-
-        public override bool VSPoint(PointCollider col)
-        {
-            return CollisionSystem.PointVSCircle(Center, col.Center, RadiusSqrd);
-        }
+        public override bool VSBox(BoxCollider col)       => CollisionSystem.BoxVSCircle(Center, RadiusSqrd, col.Min, col.Max); 
+        public override bool VSCircle(CircleCollider col) => CollisionSystem.CircleVSCircle(Center, col.Center, Radius, col.Radius); 
+        public override bool VSPoint(PointCollider col)   => CollisionSystem.PointVSCircle(Center, col.Center, RadiusSqrd); 
     }
 }

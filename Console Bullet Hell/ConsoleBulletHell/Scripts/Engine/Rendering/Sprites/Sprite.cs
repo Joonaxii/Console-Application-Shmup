@@ -8,21 +8,27 @@ namespace Joonaxii.ConsoleBulletHell
     /// </summary>
     public class Sprite
     {
-        public int resX;
-        public int resY;
+        public Vector2 PivotOffset { get => new Vector2(_pivotOffsetX, _pivotOffsetY); }
 
-        public float pivotOffsetX;
-        public float pivotOffsetY;
+        public int Width { get; }
+        public int Height { get; }
 
-        public char[] Chars;
-    
-        public int order;
+        public int Order { get; private set; }
 
-        public bool isMasker;
-        public char[] Mask;
+        #region Private Fields
+
+        private float _pivotOffsetX;
+        private float _pivotOffsetY;
+
+        private char[] _chars;
+
+        private bool _isMasker;
+        private char[] _mask;
 
         private int _resXH;
         private int _resYH;
+
+        #endregion
 
         /// <summary>
         /// Creates a sprite based on manually given data
@@ -35,18 +41,18 @@ namespace Joonaxii.ConsoleBulletHell
         /// <param name="yOff">Pivot offset Y (world coordinates)</param>
         public Sprite(int x, int y, char[] sprt, int ord, float xOff, float yOff)
         {
-            order = ord;
+            Order = ord;
 
-            pivotOffsetX = xOff;
-            pivotOffsetY = yOff;
+            _pivotOffsetX = xOff;
+            _pivotOffsetY = yOff;
 
-            resX = x;
-            resY = y;
+            Width = x;
+            Height = y;
 
-            _resXH = resX <= 1 ? 0 : resX % 2 == 0 ? resX / 2 : (resX - 1) / 2;
-            _resYH = resY <= 1 ? 0 : resY % 2 == 0 ? resY / 2 : (resY - 1) / 2;
+            _resXH = Width <= 1 ? 0 : Width % 2 == 0 ? Width / 2 : (Width - 1) / 2;
+            _resYH = Height <= 1 ? 0 : Height % 2 == 0 ? Height / 2 : (Height - 1) / 2;
 
-            Chars = sprt;
+            _chars = sprt;
         }
 
         /// <summary>
@@ -55,43 +61,43 @@ namespace Joonaxii.ConsoleBulletHell
         /// <param name="data">Data used to build the sprite, ususally this is the data that's loaded from disk or resources</param>
         public Sprite(SpriteData data)
         {
-            order = data.order;
+            Order = data.order;
 
-            resX = data.resX;
-            resY = data.resY;
+            Width = data.resX;
+            Height = data.resY;
 
-            pivotOffsetX = data.pivotOffsetX;
-            pivotOffsetY = data.pivotOffsetY;
+            _pivotOffsetX = data.pivotOffsetX;
+            _pivotOffsetY = data.pivotOffsetY;
 
-            Chars = new char[resX * resY];
-            for (int i = 0; i < Chars.Length; i++)
+            _chars = new char[Width * Height];
+            for (int i = 0; i < _chars.Length; i++)
             {
-                Chars[i] = data.pixels[i];
+                _chars[i] = data.pixels[i];
             }
 
-            _resXH = resX <= 1 ? 0 : resX % 2 == 0 ? resX / 2 : (resX - 1) / 2;
-            _resYH = resY <= 1 ? 0 : resY % 2 == 0 ? resY / 2 : (resY - 1) / 2;
+            _resXH = Width <= 1 ? 0 : Width % 2 == 0 ? Width / 2 : (Width - 1) / 2;
+            _resYH = Height <= 1 ? 0 : Height % 2 == 0 ? Height / 2 : (Height - 1) / 2;
 
-            isMasker = data.isMasker;
-            Mask = data.mask;
+            _isMasker = data.isMasker;
+            _mask = data.mask;
         }
 
         /// <summary>
-        /// 
+        /// Draws the sprite at a given position(in world space) with a given order offset
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="depth"></param>
-        /// <param name="state"></param>
-        /// <param name="orderOffset"></param>
+        /// <param name="position">Position to draw the sprite at (in world space)</param>
+        /// <param name="depth">The current depth buffer</param>
+        /// <param name="state">Current state of the world</param>
+        /// <param name="orderOffset">An amount which will be added to the sprite's own rendering order value</param>
         public void Draw(Vector2 position, int[] depth, WorldState state, int orderOffset)
         {
             //Convert sprite's position in world space to graphic/console space
-            Vector2Int screenPos = new Vector2Int((int)(position.x + pivotOffsetX) + Renderer.WORLD_HALF_X, (int)(position.y + pivotOffsetY) + Renderer.WORLD_HALF_Y);
+            Vector2Int screenPos = new Vector2Int((int)(position.x + _pivotOffsetX) + Renderer.WORLD_HALF_X, (int)(position.y + _pivotOffsetY) + Renderer.WORLD_HALF_Y);
 
             //Iterate over sprite's resolution
-            for (int x = 0; x < resX; x++)
+            for (int x = 0; x < Width; x++)
             {
-                for (int y = 0; y < resY; y++)
+                for (int y = 0; y < Height; y++)
                 {
                     Vector2Int posP = screenPos;
                     posP.x += x - _resXH;
@@ -101,15 +107,15 @@ namespace Joonaxii.ConsoleBulletHell
                     if (!Renderer.IsInBounds(posP)) { continue; }
 
                     int index = posP.y * Renderer.WORLD_RES_X + posP.x;
-                    int indexC = y * resX + x;
+                    int indexC = y * Width + x;
 
-                    int orderOff = order + orderOffset;
+                    int orderOff = Order + orderOffset;
                     //If the depth at the current position in graphic space is greater or equal to this sprite's renderig order, skip 
-                    if (depth[index] >= (isMasker ? -orderOff : orderOff)) { continue; }
+                    if (depth[index] >= (_isMasker ? -orderOff : orderOff)) { continue; }
 
                     //This is just here to make the player's Collider visible in when the player is behind other sprites
-                    if (isMasker && state.State[index] == Mask[indexC]) { continue; }
-                    char c = Chars[indexC];
+                    if (_isMasker && state.State[index] == _mask[indexC]) { continue; }
+                    char c = _chars[indexC];
 
                     //Also skip if the "pixel" is supposed to be empty/transparent.
                     if (c == Renderer.EMPTY_PIXEL_CHAR) { continue; }
@@ -127,12 +133,12 @@ namespace Joonaxii.ConsoleBulletHell
         public void DumpToOutput()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"XY: {resX}/{resY}\nOrder: {order}\n");
-            for (int y = 0; y < resY; y++)
+            sb.AppendLine($"XY: {Width}/{Height}\nOrder: {Order}\n");
+            for (int y = 0; y < Height; y++)
             {
-                for (int x = 0; x < resX; x++)
+                for (int x = 0; x < Width; x++)
                 {
-                    sb.Append(Chars[y * resX + x]);
+                    sb.Append(_chars[y * Width + x]);
                 }
 
                 sb.Append('\n');

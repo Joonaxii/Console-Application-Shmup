@@ -17,27 +17,17 @@ namespace Joonaxii.ConsoleBulletHell
             z = _z;
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Vector3Int && Equals((Vector3Int)obj);
-        }
-
-        public bool Equals(Vector3Int other)
-        {
-            return x == other.x & y == other.y & z == other.z;
-        }
-
-        public override string ToString()
-        {
-            return $"XYZ: {x}, {y}, {z}";
-        }
-
         public void Set(int _x, int _y, int _z)
         {
             x = _x;
             y = _y;
             z = _z;
         }
+
+        public bool Equals(Vector3Int other) => x == other.x & y == other.y & z == other.z;
+        public override bool Equals(object obj) => obj is Vector3Int && Equals((Vector3Int)obj);
+
+        public override string ToString() => $"XYZ: ({x}, {y}, {z})";
 
         public override int GetHashCode()
         {
@@ -48,14 +38,7 @@ namespace Joonaxii.ConsoleBulletHell
             return hashCode;
         }
 
-        public static bool operator ==(Vector3Int int1, Vector3Int int2)
-        {
-            return int1.Equals(int2);
-        }
-
-        public static bool operator !=(Vector3Int int1, Vector3Int int2)
-        {
-            return !(int1 == int2);
-        }
+        public static bool operator ==(Vector3Int int1, Vector3Int int2) => int1.Equals(int2);
+        public static bool operator !=(Vector3Int int1, Vector3Int int2) => !(int1 == int2);
     }
 }

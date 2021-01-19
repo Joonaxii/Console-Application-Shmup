@@ -7,16 +7,8 @@
             ShapeSprite = null;
         }
 
-        public override ColliderBase Clone()
-        {
-            return MemberwiseClone() as PointCollider;
-        }
-
-        public override bool VSBox(BoxCollider col)
-        {
-            return CollisionSystem.BoxVSPoint(col.Min, col.Max, Center);
-        }
-
+        public override ColliderBase Clone() => MemberwiseClone() as PointCollider;
+        public override bool VSBox(BoxCollider col) => CollisionSystem.BoxVSPoint(col.Min, col.Max, Center);
         public override bool VSCircle(CircleCollider col)
         {
             return CollisionSystem.PointVSCircle(Center, col.Center, col.Radius);
